@@ -1,8 +1,5 @@
 # CS250-Fall2022-Midterm1
 
-## Archived study guide
-Please utilize your efforts with [this guide](https://github.com/theopn/CS250-reviews); we need to unify efforts on one resource.
-
 Oh god why are there 2 midterms in a row
 
 Also, the lecture slides are a monolith holy
