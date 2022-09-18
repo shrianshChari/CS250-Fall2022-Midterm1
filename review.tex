@@ -5,25 +5,123 @@
 \date{September 2022}
 
 \begin{document}
-	\maketitle
+\maketitle
 
-	\section{Sections of textbook to review}
-	\begin{itemize}
-		\item Chapter 3
-		\item Chapter 4
-		\item Chapter 2.17
-		\item Chapter 5.1-5.10
-	\end{itemize}
+\section{Sections of textbook to review}
+\begin{itemize}
+	\item Chapter 3
+	\item Chapter 4
+	\item Chapter 2.17
+	\item Chapter 5.1-5.10
+\end{itemize}
 
-	\section{What is Computer Architecture?}
+\section{What is Computer Architecture?}
 
-	\section{Information Representation}
+\section{Information Representation}
+\begin{itemize}
+	\item Computers use a representation defined by a pair of symbols to represent all kinds of information
+		\begin{itemize}
+			\item This is known as a bit, where a bit is defined as either a 0 or a 1
+			\item A bit string is an ordered sequence of bits
+			\item A byte is an 8-bit bit string
+			\item Ex: 01101001 is a byte and a bit string
+		\end{itemize}
+	\item The reason computers use a 2-symbol representation is because it is easy to do so by controlling voltage; on is a 1 and off is a 0
+	\item How do you represent a bit string electrically?
+		\begin{itemize}
+			\item To represent a $k$-bit string electrically, you'll want $k$ wires to each hold one bit of the string
+			\item A bunch of $k$ wires carrying $k$ bits for a $k$-bit string is a $k$-bit \textbf{bus}.
+			\item On a diagram, you typically see a bus represented as a single line.
+			\item A $k$-bit string can represent $2^k$ unique sequences
+		\end{itemize}
+	\item Hexadecimal Notation
+		\begin{itemize}
+			\item To shorten the binary data that computers read, we usually use hexadecimal notation to view binary data
+			\item 4 bits map to one hexadecimal digit
+				\begin{table}
+					\caption{Table between hexadecimal, binary, and decimal values}
+					\label{Amongus}
+					\begin{center}
+						\begin{tabular}[h]{l l l}
+							Hexadecimal & Binary & Decimal \\
+							\hline
+							0 & 0000 & 0 \\
+							1 & 0001 & 1 \\
+							2 & 0010 & 2 \\
+							3 & 0011 & 3 \\
+							4 & 0100 & 4 \\
+							5 & 0101 & 5 \\
+							6 & 0110 & 6 \\
+							7 & 0111 & 7 \\
+							8 & 1000 & 8 \\
+							9 & 1001 & 9 \\
+							A & 1000 & 10 \\
+							B & 1011 & 11 \\
+							C & 1100 & 12 \\
+							D & 1101 & 13 \\
+							E & 1100 & 14 \\
+							F & 1111 & 15 \\
+							\hline
+						\end{tabular}
+					\end{center}
+				\end{table}
+		\end{itemize}
+	\item Prefixes for $2^k$
+		\begin{itemize}
+			\item Kibi is $2^{10} \approx 10^3$ (which is kilo)
+			\item Mebi is $2^{20} \approx 10^6$ (which is mega)
+			\item Gibi is $2^{30} \approx 10^9$ (which is giga)
+			\item Tebi is $2^{40} \approx 10^{12}$ (which is tera)
+			\item Note: you drop the last two letters of the $10^k$ prefix and add bi (for binary) to approximate the $2^k$ prefix
+			\item $2^{10} = 1024$ and $10^3 = 1000$
+		\end{itemize}
+\end{itemize}
 
-	\section{Computer Memory}
+\section{Computer Memory}
+\begin{itemize}
+	\item \textbf{Memory} is computer hardware that functions can write data to and read data from
+	\item Memory contains locations where data is stored, as well as unique addresses that point to those locations
+		\begin{itemize}
+			\item How do we define $2^k$ unique ``points" in physical memory with $k$ bits?
+			\item We delegate $2^{{k}/{2}}$ wires of the bit string as ``horizontal" wires and the other $2^{k/2}$ wires of the bit string as ``vertical" wires
+			\item This creates a grid with $2^k$ individual locations defined by $k$ bits
+		\end{itemize}
+	\item With this, we can define a pointer-mapping circuit that takes a $k$-bit pointer that maps to $2^k$ locations in memory
+	\item What actually goes at each of these "locations"?
+		\begin{itemize}
+			\item You would use a piece of circuitry called a \textbf{register}.
+			\item The register is made up of 4 parts: $k$ 1-bit latches (1 latch for each bit), an enable line, an input bus, and an output bus
+			\item The output bus returns the contents of the latches (which each store one bit in the bit string)
+			\item The enable line tells the latch when to accept new values for each bit through the input bus (the latches won't change in value until we tell it to change)
+		\end{itemize}
+	\item Pointing
+		\begin{itemize}
+			\item To actually receive data from memory, we use a circuit called a \textbf{decoder}
+			\item The decoder has $k$ wires as an input and $2^k$ wires as an output
+			\item Based on the input wires, the decoder will have one of the output wires carrying voltage, while the rest of them have no voltage
+			\item One of the applications of a decoder is to use the decoder as a pointer-mapping circuit that points a $k$-bit address to one of $2^k$ locations in memory
+		\end{itemize}
+	\item The multiplexer (mux)
+		\begin{itemize}
+			\item The multiplexer is a circuit that takes in an address and returns the contents of the location in memory that address points to
+			\item It is used to read data from memory
+			\item It has 2 inputs: an $n$-bit bus that represents the address of the register you want the data of, and $2^n$ $k$-bit buses that represent the wires connecting from the memory to the mux
+			\item The mux is given the address as input, then the mux retrieves the data from the corresponding bus
+			\item The mux then outputs the data through its $k$-bit bus
+		\end{itemize}
+	\item The demultiplexer (demux)
+		\begin{itemize}
+			\item The demultiplexer is a circuit that takes in an address and some data and writes that data to the location in memory that address points to
+			\item It has 2 inputs: an $n$-bit bus that represents the address of the register you want to write to, and a $k$-bit bus that represents the new data you want to store the value of
+			\item The demux points to one of the corresponding $2^n$ $k$-bit output buses and outputs the $k$-bit string to write the string to the corresponding location in memory
+			\item Essentially the inverse of the mux function; mux function reads information, while the demux function writes information
+		\end{itemize}
+	\item When a bit string is transported from memory to the processor, it's called a fetch.
+\end{itemize}
 
-	\section{Processors}
+\section{Processors}
 
-	\section{Machine Instructions}
+\section{Machine Instructions}
 
-	\section{Why Assembly?}
+\section{Why Assembly?}
 \end{document}
