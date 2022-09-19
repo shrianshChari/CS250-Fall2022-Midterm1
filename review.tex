@@ -87,7 +87,7 @@
 			\item This creates a grid with $2^k$ individual locations defined by $k$ bits
 		\end{itemize}
 	\item With this, we can define a pointer-mapping circuit that takes a $k$-bit pointer that maps to $2^k$ locations in memory
-	\item What actually goes at each of these "locations"?
+	\item What actually goes at each of these ``locations"?
 		\begin{itemize}
 			\item You would use a piece of circuitry called a \textbf{register}.
 			\item The register is made up of 4 parts: $k$ 1-bit latches (1 latch for each bit), an enable line, an input bus, and an output bus
@@ -120,6 +120,48 @@
 \end{itemize}
 
 \section{Processors}
+\begin{itemize}
+	\item The Harvard and Von Neumann architectures
+		\begin{itemize}
+			\item The major difference between the two architectures is that the Harvard architecture has separate memory areas for holding the instructions and the data, whereas the Von Neumann architecture contains it all in one memory
+			\item Pros vs Cons of each:
+				\begin{itemize}
+					\item Harvard
+						\begin{itemize}
+							\item Pros: Simultaneous access of instructions and data, can optimize the memory design specifically for instructions and data
+							\item Cons: Two potential memory bottlenecks; may run out of memory for instructions or data
+						\end{itemize}
+					\item Von Neumann
+						\begin{itemize}
+							\item Pros: Requires less memory; both of them occupy the same memory
+							\item Cons: Less secure because a given address could either point to an address or a piece of data
+						\end{itemize}
+				\end{itemize}
+			\item Nowadays, most processors use the Von Neumann architecture
+		\end{itemize}
+	\item What are processors?
+		\begin{itemize}
+			\item Many people use processor the same way as they use CPU, but they are not the same thing; processors are just a chip that can perform a multistep computation
+		\end{itemize}
+	\item A general-purpose processor
+		\begin{itemize}
+			\item Why would you want a processor that can do a lot of things vs one that does a few things very efficiently?
+			\item More cost-effective to manufacture a lot of a few processors than lots of different processors
+			\item The blueprint of a general-purpose processor contains a few things: a store of memory that stores data, a circuit that conducts computation (called an \textbf{ALU}, or Arithmetic and Logic Unit), and MUXes and DeMUXes to read data to the ALU and write the results of the computation back to memory
+			\item The ALU contains MUXes that point the operands passed in as the input data to the corresponding engines to conduct the computation (ex, an arithmetic engine, a graphics engine, etc)
+		\end{itemize}
+	\item Representing machine code execution with a general-purpose processor
+		\begin{itemize}
+			\item To execute a computation, you need an address pointing to the instruction that you wish to execute
+			\item This means that you have to store computation in memory
+			\item Some may choose to store their instructions separately from the data (which is Harvard architecture)
+		\end{itemize}
+	\item Executing instructions
+		\begin{itemize}
+			\item A simplistic model for how computers execute machine instructions is the fetch-execute model
+			\item Essentially, the computer fetches the next instruction, then executes it, and idles while there is nothing to execute
+		\end{itemize}
+\end{itemize}
 
 \section{Machine Instructions}
 
