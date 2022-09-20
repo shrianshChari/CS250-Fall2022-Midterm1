@@ -1,5 +1,7 @@
 \documentclass{article}
 
+\usepackage{amssymb}
+
 \title{CS 250 Midterm 1 - Fall 2022}
 \author{schari}
 \date{September 2022}
@@ -183,6 +185,127 @@
 \end{itemize}
 
 \section{Machine Instructions}
+\begin{itemize}
+	\item What operations should a processor be able to do?
+		\begin{itemize}
+			\item What people want their processors to be able to do
+			\item It is a design challenge
+			\item People want their processors to do a lot
+			\item What they want the processors to do can change over time
+			\item The influence of different people can shift over time
+			\item Other considerations: technology, cost, adoption
+		\end{itemize}
+	\item The set of operations a processor can do is the \textbf{instruction set architecture} (ISA)
+	\item How do we go from HLLs to machine instructions?
+		\begin{itemize}
+			\item HLLs might have instructions that doesn't correspond with a machine instruction
+			\item There might exist machine instructions that doesn't correspond to a HLL instruction
+			\item What matters is that every HLL instruction can be executed with a combination of machine instructions
+		\end{itemize}
+	\item ISA considerations
+		\begin{itemize}
+			\item The ability for an ISA to execute every possible program, Turing completeness takes little of the ISA's capabilities
+			\item What really matters
+				\begin{itemize}
+					\item Programmer convenience: the ability for a few lines of code to do a lot of computation
+					\item The cost of a processor to execute so many instructions
+					\item Considerations like heat and speed of the circuit
+				\end{itemize}
+		\end{itemize}
+	\item An ISA exists to control the general-purpose processor circuit
+	\item Therefore, you pair a bit string with an instruction and configure the circuit to execute the corresponding instruction when it gets its bit string
+	\item What goes in a machine instruction?
+		\begin{itemize}
+			\item Composed of 3 parts: the opcode, the operands, and the result
+			\item All of these individual parts are represented by bit strings
+			\item Opcode
+				\begin{itemize}
+					\item Required since it tells the ALU what to do
+					\item The encoding is up to the ISA designer, not portable between ISAs
+				\end{itemize}
+			\item Operands
+				\begin{itemize}
+					\item Inputs of the computation
+					\item Number of operands defined by opcode
+					\item Pointers to the location containing the data
+					\item Sometimes contains extra information indicating the encoding of the data (e.g. 2's complement)
+				\end{itemize}
+			\item Results
+				\begin{itemize}
+					\item Number of results defined by opcode
+					\item Pointer to location that will store the result of the computation
+					\item Not uncommon for a zero-bit pointer to be supplied
+				\end{itemize}
+		\end{itemize}
+	\item Instruction size; two ways to design a length of a machine instruction
+		\begin{itemize}
+			\item Variable length
+				\begin{itemize}
+					\item Pros: can create as many instructions as you want; just add bytes, can choose short encoding for common instructions for quick execution, Easier to market as a feature
+					\item Cons: variable length means you have to expend extra computation time to get what the instruction actually is before you even compute it, compiler writers might worry about ISA compatibility, no one else really writes in machine code
+				\end{itemize}
+			\item Fixed length
+				\begin{itemize}
+					\item Pros: Easier to fetch instructions from memory, decryption of instructions is simpler, criteria for instruction inclusion is largely technical since you can't add new bytes in the future, compiler writers like fixed length because then compiling to machine code is easier
+					\item Cons: instructions using only a few fields might not use all bits of fixed length string, cannot market "expanded ISA" because fixed length means you can't expand it
+				\end{itemize}
+			\item Both are measured in terms of bytes
+		\end{itemize}
+	\item Instruction length and its growth
+		\begin{itemize}
+			\item To represent each location of 4 GB of memory, you need a 32 bit pointer
+			\item For 16 GB of memory, you'd need 34 bit pointer
+			\item The number of bits you need to use to represent your memory increases as more memory becomes prevalent as a result of Moore's Law
+			\item $\therefore$ general-purpose processors that use 32 bit pointers or less have become obsolete
+			\item Variable length ISAs can adapt by adding an "address extension"
+			\item Fixed length ISAs have more limited options
+		\end{itemize}
+	\item Constant pointer sizes?
+		\begin{itemize}
+			\item Idea is to have a small number of registers that the ALU can directly access instead of accessing from memory
+			\item This means pointers can remain small while also increasing amount of memory
+			\item You'd typically see two kinds of registers: general registers for bit strings and integers, and floating point registers for floating point values (IEEE 754)
+		\end{itemize}
+	\item Fixed length memory access
+		\begin{itemize}
+			\item There are two instructions for getting memory into the registers: LOAD and STORE
+			\item You would LOAD the information from memory into the registers, tell the ALU to use the registers for the computation, then STORE the result in the memory
+			\item Using these register banks makes a more complicated circuit than one without register banks
+		\end{itemize}
+	\item Examples of ISA used
+		\begin{itemize}
+			\item Historic: PDP-1, IBM 360, DEC VAX, x86
+			\item SPARC (what \verb|lore| uses)
+			\item x86-64 (aka amd64, x86\_64, x64, Intel 64)
+			\item PowerPC
+			\item ARM
+		\end{itemize}
+	\item Early ISAs
+		\begin{itemize}
+			\item Memory is expensive; locations store one byte
+			\item Chips have limited pins, so limited I/O
+			\item Wanted to keep instruction bit strings short
+			\item 8-bit pointers, have specialized 0-bit registers
+			\item Programmers would write programs in machine language, so they would want some sophisticated instructions (could also lead to feature creep)
+			\item Wanted to have many different instructions
+			\item They would give instructions encodings in increments of 8 bits
+			\item More used instructions would be given shorter encodings
+		\end{itemize}
+	\item x86
+		\begin{itemize}
+			\item Became very successful early on thanks to inclusion in IBM PC
+			\item Would receive several expansions to modernize it
+			\item Various extensions patented by both Intel and AMD
+			\item x86-64
+			\begin{itemize}
+				\item 64-bit extension of x86 architecture
+				\item x86-64 is owned by AMD, but x86 owned by Intel, so both are linked to ISA
+				\item Variable length from 1 to 15 bytes
+				\item Circuit has large propagation delay and large power consumption that doesn't improve computation performance
+				\item However, it's so widely used that it's still used nearly 50 years later
+			\end{itemize}
+		\end{itemize}
+\end{itemize}
 
 \section{Why Assembly?}
 \end{document}
