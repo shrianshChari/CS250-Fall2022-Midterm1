@@ -158,7 +158,11 @@
 	\item Executing instructions
 		\begin{itemize}
 			\item A simplistic model for how computers execute machine instructions is the fetch-execute model
-			\item Essentially, the computer fetches the next instruction, then executes it, and idles while there is nothing to execute
+			\item Essentially, the computer fetches the next instruction, then executes it
+			\item What happens when there is nothing else to execute?
+			\item The software must figure out what the processor needs to execute next
+			\item In a dedicated processor, the main application will execute endlessly
+			\item In a general-purpose processor, the operating system will have an idle loop for the processor to run while waiting for the next process to be run
 		\end{itemize}
 	\item Clock Rate and Processor Speed
 		\begin{itemize}
@@ -170,8 +174,8 @@
 					\item Benchmarking a processor's performance when executing a program requires 3 values:
 						\begin{itemize}
 							\item $\displaystyle\frac{Instructions}{Program}$ depends on the algorithm being executed (Software)
-							\item $\displaystyle\frac{Clock cycles}{Instruction}$ depends on the compiler and circuit design (SW + Hardware)
-							\item $\displaystyle\frac{Seconds}{Clock cycle}$ depends the worst-case delay (HW)
+							\item $\displaystyle\frac{Clock ~ cycles}{Instruction}$ depends on the compiler and circuit design (SW + Hardware)
+							\item $\displaystyle\frac{Seconds}{Clock ~ cycle}$ depends the worst-case delay (HW)
 							\item The final fraction is $\displaystyle\frac{Seconds}{Program}$
 						\end{itemize}
 				\end{itemize}
